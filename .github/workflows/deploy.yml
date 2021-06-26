@@ -1,0 +1,51 @@
+name: ci/cd
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Prepare artifact and deploy
+        env: 
+          HOST: ${{secrets.SSH_HOST}}
+          KEY: ${{secrets.SSH_KEY}}
+          USERNAME: ${{secrets.SSH_USERNAME}}
+          PATH_TO_FOLDER: ${{ secrets.PATH_TO_CODE }}
+        run: |
+          mkdir ../deploy
+          cp -TR . ../deploy
+          rm -rf ../deploy/.husky/ ../deploy/.git/ ../deploy/github/
+          cd ../deploy
+          npm i
+          npm run compodoc
+          npm run build
+          cd -
+          tar -cvf deploy.tar ../deploy/
+          mkdir ~/.ssh
+          echo "$KEY" > ~/.ssh/gh_actions_key
+          chmod 600 ~/.ssh/gh_actions_key
+          rsync -avzr --delete -e "ssh -i ~/.ssh/gh_actions_key -o StrictHostKeyChecking=no" deploy.tar ${USERNAME}@${HOST}:${PATH_TO_FOLDER}
+      - name: Build and start
+        uses: appleboy/ssh-action@master
+        env:
+          PATH_TO_FOLDER: ${{ secrets.PATH_TO_CODE }}
+        with:
+          host: ${{secrets.SSH_HOST}} # IP address of the server you wish to ssh into
+          key: ${{secrets.SSH_KEY}} # Private or public key of the server
+          username: ${{ secrets.SSH_USERNAME }} # User of the server you want to ssh into
+          envs: PATH_TO_FOLDER
+          script: |
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh  
+            cd ${PATH_TO_FOLDER}
+            rm -rf password-manager
+            tar -xf deploy.tar
+            mv deploy password-manager
+            rm -rf deploy.tar
+            cd password-manager
+            npm run build
+            echo 'Deployment successful to digital ocean with cloning' 

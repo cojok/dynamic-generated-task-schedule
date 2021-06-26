@@ -1,0 +1,39 @@
+version: "3.1"
+services: 
+  redis:
+    image: bitnami/redis:5.0.9
+    restart: unless-stopped
+    environment: 
+      REDIS_PASSWORD: redisLocalPass
+  postgres:
+    image: postgres:13.2
+    restart: unless-stopped
+    environment: 
+      POSTGRES_PASSWORD: test1234!
+      POSTGRES_USER: cojokka
+      POSTGRES_DB: square-cup-labs-api
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks: 
+      - postgres
+  pg-admin:
+    image: dpage/pgadmin4:latest
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: cojokka@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: localPassPgAdmin
+    ports: 
+      - 5000:80
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    networks: 
+      - postgres
+volumes:
+  db-data:
+  pgadmin-data:
+networks:
+  postgres:
+    driver: bridge
