@@ -16,9 +16,17 @@ export class CreateConnectorsDto {
 
   @ApiProperty({ default: 'aad_endpoint' })
   @IsString()
-  aad_endpoint: string;
+  aad_url: string;
 
   @ApiProperty({ default: 'graph_endpoint' })
   @IsString()
-  graph_endpoint: string;
+  graph_url: string;
+
+  @ApiProperty({ default: 'user id' })
+  @IsUUID()
+  user_id: string;
+
+  @ApiProperty({ default: 'connector_name' })
+  @IsString()
+  name: string;
 }

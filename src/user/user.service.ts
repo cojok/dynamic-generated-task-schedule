@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
-
 import { User } from '../db/entities/user.entity';
-import { CreateUserDto } from './dto/create-user.dto';
-import { DeleteUserDto } from './dto/delete-user.dto';
-import { GetUserByIdDto } from './dto/get-user-by-id.dto';
-import { GetUserByUsernameDto } from './dto/get-user-by-username.dto';
 import { UtilsService } from '../utils/utils.service';
+import {
+  CreateUserDto,
+  DeleteUserDto,
+  GetUserByIdDto,
+  GetUserByUsernameDto,
+} from './dto/index.dto';
 
 @Injectable()
 export class UserService {

@@ -8,11 +8,14 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { RegistrationStatus } from './interfaces/registration-status.interface';
 import { AuthService } from './auth.service';
+import { LoginStatus } from './interfaces/login-status.interface';
+import { LoginUserDto } from '../user/dto/login-user.dto';
 
+@ApiTags('auth')
 @Controller({
   path: 'auth',
 })
@@ -21,9 +24,13 @@ export class AuthController {
 
   @UseGuards(AuthGuard('local'))
   @Post('login')
-  @ApiResponse({ status: 200, description: 'Logged in successful' })
+  @ApiResponse({
+    status: 200,
+    description: 'Logged in successful',
+    type: LoginUserDto,
+  })
   @ApiResponse({ status: 401, description: 'Not authorized' })
-  async login(@Request() req) {
+  async login(@Request() req): Promise<LoginStatus> {
     return this.authService.login(req.user);
   }
 

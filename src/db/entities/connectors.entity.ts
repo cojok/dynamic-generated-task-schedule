@@ -68,5 +68,5 @@ export class Connectors {
   updatedAt: string;
 
   @ManyToOne(() => User, (user: User) => user.connectors)
-  user_id: User;
+  user_id: User['id'];
 }
