@@ -56,7 +56,7 @@ export class AuthService {
     return status;
   }
 
-  private createAccessToken({ username, id }: User): String {
+  private createAccessToken({ username, id }: User): string {
     const user: JwtPayload = { username, sub: id };
     const accessToken = this.jwtService.sign(user);
     return accessToken;
