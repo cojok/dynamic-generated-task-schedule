@@ -43,3 +43,4 @@ package-lock.json
 
 # local files only
 ormconfig.json
+.vscode/settings.json
