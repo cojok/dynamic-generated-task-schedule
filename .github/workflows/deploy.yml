@@ -2,7 +2,7 @@ name: ci/cd
 on:
   pull_request:
     types: [closed]
-    branches: [office365-module]
+    branches: [initial_version]
 jobs:
   deploy:
     runs-on: ubuntu-latest
