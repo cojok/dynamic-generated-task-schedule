@@ -31,13 +31,13 @@ jobs:
         uses: appleboy/ssh-action@master
         env:
           PATH_TO_FOLDER: ${{ secrets.PATH_TO_CODE }}
-          SC_PGDB_HOST: ${{secrets.SC_PGDB_HOST}}
-          SC_PGDB_PORT: ${{secrets.SC_PGDB_PORT}}
-          SC_PGDB_PASS: ${{secrets.SC_PGDB_PASS}}
-          SC_PGDB_NAME: ${{SC_PGDB_NAME}}
-          SC_PGDB_USER: ${{SC_PGDB_USER}}
-          SC_SECRET: ${{secrets.SC_SECRET}}
-          SC_SALT: ${{secrets.SC_SALT}}
+          SC_PGDB_HOST: ${{ secrets.SC_PGDB_HOST }}
+          SC_PGDB_PORT: ${{ secrets.SC_PGDB_PORT }}
+          SC_PGDB_PASS: ${{ secrets.SC_PGDB_PASS }}
+          SC_PGDB_NAME: ${{ secrets.SC_PGDB_NAME }}
+          SC_PGDB_USER: ${{ secrets.SC_PGDB_USER }}
+          SC_SECRET: ${{ secrets.SC_SECRET }}
+          SC_SALT: ${{ secrets.SC_SALT }}
         with:
           host: ${{secrets.SSH_HOST}} # IP address of the server you wish to ssh into
           key: ${{secrets.SSH_KEY}} # Private or public key of the server
