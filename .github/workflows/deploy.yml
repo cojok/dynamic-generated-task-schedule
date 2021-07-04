@@ -53,15 +53,16 @@ jobs:
             rm -rf deploy.tar
             cd api
             export $NODE_ENV=dev
-            echo NODE_ENV=dev > .env.dev
-            echo PORT=3000 >> .env.dev
-            echo SC_PGDB_HOST=${SC_PGDB_HOST} >> .env.dev
-            echo SC_PGDB_PORT=${SC_PGDB_PORT} >> .env.dev
-            echo SC_PGDB_PASS=${SC_PGDB_PASS} >> .env.dev
-            echo SC_PGDB_USER=${SC_PGDB_USER} >> .env.dev
-            echo SC_PGDB_NAME=${SC_PGDB_NAME} >> .env.dev
-            echo SC_REDIS_PASS=redisLocalPass >> .env.dev
-            echo SC_SECRET=${SC_SECRET} >> .env.dev
-            echo SC_SALT=${SC_SALT} >> .env.dev
+            echo NODE_ENV=dev > .env.prod
+            echo PORT=3000 >> .env.prod
+            echo SC_PGDB_HOST=${SC_PGDB_HOST} >> .env.prod
+            echo SC_PGDB_PORT=${SC_PGDB_PORT} >> .env.prod
+            echo SC_PGDB_PASS=${SC_PGDB_PASS} >> .env.prod
+            echo SC_PGDB_USER=${SC_PGDB_USER} >> .env.prod
+            echo SC_PGDB_NAME=${SC_PGDB_NAME} >> .env.prod
+            echo SC_REDIS_PASS=redisLocalPass >> .env.prod
+            echo SC_SECRET=${SC_SECRET} >> .env.prod
+            echo SC_SALT=${SC_SALT} >> .env.prod
+            cat .env.prod
             npm run start:prod
             echo 'Deployment successful to digital ocean with cloning' 
