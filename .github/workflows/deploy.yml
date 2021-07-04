@@ -8,7 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-
       - name: Prepare artifact and deploy
         env: 
           HOST: ${{secrets.SSH_HOST}}
@@ -32,11 +31,18 @@ jobs:
         uses: appleboy/ssh-action@master
         env:
           PATH_TO_FOLDER: ${{ secrets.PATH_TO_CODE }}
+          SC_PGDB_HOST: ${{secrets.SC_PGDB_HOST}}
+          SC_PGDB_PORT: ${{secrets.SC_PGDB_PORT}}
+          SC_PGDB_PASS: ${{secrets.SC_PGDB_PASS}}
+          SC_PGDB_NAME: ${{SC_PGDB_NAME}}
+          SC_PGDB_USER: ${{SC_PGDB_USER}}
+          SC_SECRET: ${{secrets.SC_SECRET}}
+          SC_SALT: ${{secrets.SC_SALT}}
         with:
           host: ${{secrets.SSH_HOST}} # IP address of the server you wish to ssh into
           key: ${{secrets.SSH_KEY}} # Private or public key of the server
           username: ${{ secrets.SSH_USERNAME }} # User of the server you want to ssh into
-          envs: PATH_TO_FOLDER
+          envs: PATH_TO_FOLDER,SC_PGDB_HOST,SC_PGDB_PORT,SC_PGDB_PASS,SC_SECRET,SC_SALT
           script: |
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh  
@@ -46,5 +52,16 @@ jobs:
             mv deploy api
             rm -rf deploy.tar
             cd api
+            export $NODE_ENV=dev
+            echo NODE_ENV=dev > .env.dev
+            echo PORT=3000 >> .env.dev
+            echo SC_PGDB_HOST=${SC_PGDB_HOST} >> .env.dev
+            echo SC_PGDB_PORT=${SC_PGDB_PORT} >> .env.dev
+            echo SC_PGDB_PASS=${SC_PGDB_PASS} >> .env.dev
+            echo SC_PGDB_USER=${SC_PGDB_USER} >> .env.dev
+            echo SC_PGDB_NAME=${SC_PGDB_NAME} >> .env.dev
+            echo SC_REDIS_PASS=redisLocalPass >> .env.dev
+            echo SC_SECRET=${SC_SECRET} >> .env.dev
+            echo SC_SALT=${SC_SALT} >> .env.dev
             npm run start:prod
             echo 'Deployment successful to digital ocean with cloning' 
