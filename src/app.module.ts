@@ -12,7 +12,6 @@ import { Office365Module } from './office365/office365.module';
 import { UserModule } from './user/user.module';
 import { UtilsModule } from './utils/utils.module';
 
-
 @Module({
   imports: [
     DbModule,
