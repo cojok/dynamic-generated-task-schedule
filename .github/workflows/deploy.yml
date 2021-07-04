@@ -44,6 +44,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }} # User of the server you want to ssh into
           envs: PATH_TO_FOLDER,SC_PGDB_HOST,SC_PGDB_PORT,SC_PGDB_PASS,SC_SECRET,SC_SALT
           script: |
+            export NODE_ENV=prod
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh  
             cd ${PATH_TO_FOLDER}
@@ -52,9 +53,8 @@ jobs:
             mv deploy api
             rm -rf deploy.tar
             cd api
-            export $NODE_ENV=dev
-            echo NODE_ENV=dev > .env.prod
-            echo PORT=3000 >> .env.prod
+            echo "NODE_ENV=prod" > .env.prod
+            echo "PORT=3000" >> .env.prod
             echo SC_PGDB_HOST=${SC_PGDB_HOST} >> .env.prod
             echo SC_PGDB_PORT=${SC_PGDB_PORT} >> .env.prod
             echo SC_PGDB_PASS=${SC_PGDB_PASS} >> .env.prod
