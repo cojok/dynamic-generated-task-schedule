@@ -3,15 +3,15 @@ import { IsUUID, IsString } from 'class-validator';
 
 export class CreateConnectorsDto {
   @ApiProperty({ default: 'client_id' })
-  @IsUUID('all')
+  @IsString()
   client_id: string;
 
   @ApiProperty({ default: 'client_secret' })
-  @IsUUID('all')
+  @IsString()
   client_secret: string;
 
   @ApiProperty({ default: 'tenant_id' })
-  @IsUUID('all')
+  @IsString()
   tenant_id: string;
 
   @ApiProperty({ default: 'aad_endpoint' })

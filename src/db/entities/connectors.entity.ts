@@ -25,7 +25,7 @@ export class Connectors {
 
   @Column({
     nullable: false,
-    type: 'uuid',
+    type: 'varchar',
     name: 'client_id',
     unique: true,
   })
@@ -33,7 +33,7 @@ export class Connectors {
 
   @Column({
     nullable: false,
-    type: 'uuid',
+    type: 'varchar',
     name: 'client_secret',
     unique: true,
   })
@@ -41,7 +41,7 @@ export class Connectors {
 
   @Column({
     nullable: false,
-    type: 'uuid',
+    type: 'varchar',
     name: 'tenant_id',
     unique: true,
   })

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/internal/Observable';
 // import * as msal from '@azure/msal-node';
 import { ConfidentialClientApplication } from '@azure/msal-node';
 import { PinoLogger } from 'nestjs-pino';
+import { map } from 'rxjs/operators';
 import { Office365AuthResponseDto } from './dto';
 
 @Injectable()
@@ -23,11 +24,11 @@ export class Office365Service {
   ) {
     logger.setContext('office365-model');
     this.tokenRequest = {
-      scopes: [`${process.env.GRAPH_ENDPOINT}.default`],
+      scopes: [`https://graph.microsoft.com/.default`],
     };
 
     this.apiConfig = {
-      uri: `${process.env.GRAPH_ENDPOINT}v1.0/users/`,
+      uri: `https://graph.microsoft.com/v1.0/users/`,
     };
   }
 
@@ -52,7 +53,8 @@ export class Office365Service {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    return users;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return users.pipe(map((response) => response.data));
   }
 
   async getUserById(

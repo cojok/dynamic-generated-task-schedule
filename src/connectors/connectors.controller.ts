@@ -51,7 +51,7 @@ export class ConnectorsController {
   async createConnector(
     @Request() req,
     @Body() createConnectorDto: CreateConnectorsDto,
-  ): Promise<String> {
+  ): Promise<CreateConnectorStatus> {
     // eslint-disable-next-line no-param-reassign
     createConnectorDto.user_id = req.user.userId;
     const result: CreateConnectorStatus = await this.connectorsService.createConnector(
@@ -60,7 +60,7 @@ export class ConnectorsController {
     if (!result.success) {
       throw new HttpException(result.message, HttpStatus.BAD_REQUEST);
     }
-    return 'result';
+    return result;
   }
 
   @UseGuards(JwtAuthGuard)

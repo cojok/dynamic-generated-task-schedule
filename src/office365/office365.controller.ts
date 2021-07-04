@@ -1,4 +1,4 @@
-import { Controller, Get, Request, UseGuards } from '@nestjs/common';
+import { Controller, Get, Query, Request, UseGuards } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { PinoLogger } from 'nestjs-pino';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -17,13 +17,13 @@ export class Office365Controller {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('')
-  @ApiResponse({ status: 200, description: 'connectors found' })
-  @ApiResponse({ status: 401, description: 'Not authorized' })
+  @Get('/token')
+  @ApiResponse({ status: 200, description: 'get token details' })
+  @ApiResponse({ status: 401, description: 'Not hey' })
   @ApiResponse({ status: 404, description: 'Not found' })
-  getToken(@Request() req): Promise<Office365AuthResponseDto> {
+  async getToken(@Request() req): Promise<Office365AuthResponseDto> {
     const { userId } = req.user;
-    const userConnectors = this.connectorsService.findAllByUserId({
+    const userConnectors = await this.connectorsService.findAllByUserId({
       user_id: userId,
     });
     const authority = userConnectors[0].aad_url + userConnectors[0].tenant_id;
@@ -35,5 +35,15 @@ export class Office365Controller {
       },
     };
     return this.office365Service.getToken(authConfig);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/users')
+  @ApiResponse({ status: 200, description: 'get all users' })
+  @ApiResponse({ status: 401, description: 'Not hey' })
+  @ApiResponse({ status: 404, description: 'Not found' })
+  // eslint-disable-next-line class-methods-use-this
+  getUsers(@Query() query): Promise<any> {
+    return this.office365Service.getUsers(query.accessToken);
   }
 }

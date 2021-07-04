@@ -4,13 +4,13 @@ export class GetConnectorsDto {
   @IsUUID()
   id: string;
 
-  @IsUUID()
+  @IsString()
   client_id: string;
 
-  @IsUUID()
+  @IsString()
   client_secret: string;
 
-  @IsUUID()
+  @IsString()
   tenant_id: string;
 
   @IsString()
