@@ -11,6 +11,7 @@ export class UsersTableCreation1625999183991 implements MigrationInterface {
             name: 'id',
             type: 'uuid',
             isPrimary: true,
+            isGenerated: true,
             generationStrategy: 'uuid',
           },
           {
@@ -28,7 +29,7 @@ export class UsersTableCreation1625999183991 implements MigrationInterface {
           {
             name: 'password',
             type: 'varchar',
-            length: '55',
+            length: '255',
             isNullable: false,
           },
           {

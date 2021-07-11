@@ -17,6 +17,7 @@ export class ConnectorsTableCreation1626000168914
             name: 'id',
             type: 'uuid',
             isPrimary: true,
+            isGenerated: true,
             generationStrategy: 'uuid',
           },
           {

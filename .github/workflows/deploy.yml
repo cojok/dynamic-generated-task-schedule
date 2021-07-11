@@ -46,8 +46,9 @@ jobs:
           envs: PATH_TO_FOLDER,SC_PGDB_HOST,SC_PGDB_PORT,SC_PGDB_PASS,SC_SECRET,SC_SALT,SC_PGDB_USER,SC_PGDB_NAME,SC_PGDB_RUN_MIGRATION
           script: |
             export NODE_ENV=prod
+            export SC_PGDB_RUN_MIGRATION= ${SC_PGDB_RUN_MIGRATION}
             export NVM_DIR=~/.nvm
-            source ~/.nvm/nvm.sh 
+            source ~/.nvm/nvm.sh
             cd ${PATH_TO_FOLDER}
             tar -xf deploy.tar
             rm -rf deploy.tar
