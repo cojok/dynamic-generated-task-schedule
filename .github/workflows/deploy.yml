@@ -71,5 +71,5 @@ jobs:
             echo "STOP CURRENT SERVER"
             kill -9 $(ps aux | grep '\snode\s' | awk '{print $2}')
             echo "START NEW SERVER"
-            npm run start:prod &
+            (npm run start:prod &)
             echo 'Deployment successful to digital ocean with cloning'
