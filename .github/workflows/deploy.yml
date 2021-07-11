@@ -39,7 +39,7 @@ jobs:
           SC_PGDB_USER: ${{ secrets.SC_PGDB_USER }}
           SC_SECRET: ${{ secrets.SC_SECRET }}
           SC_SALT: ${{ secrets.SC_SALT }}
-          SC_PGDB_RUN_MIGRATIONS: ${{ secrets.SC_PGDB_RUN_MIGRATIONS }}
+          SC_PGDB_RUN_MIGRATION: ${{ secrets.SC_PGDB_RUN_MIGRATION }}
         with:
           host: ${{secrets.SSH_HOST}} # IP address of the server you wish to ssh into
           key: ${{secrets.SSH_KEY}} # Private or public key of the server
