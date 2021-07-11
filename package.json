@@ -1,5 +1,5 @@
 {
-  "name": "square-cup-password-manager",
+  "name": "square-cup-labs-api",
   "version": "0.0.3",
   "description": "",
   "author": "",
@@ -23,8 +23,9 @@
     "prepare": "husky install",
     "typeorm:cli": "ts-node ./node_modules/typeorm/cli",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm",
-    "migration:generate": "npm run typeorm -- migration:generate --config src/config/ormconfig.json --connection  --name ",
-    "migration:run": "npm run typeorm -- migration:run",
+    "migration:generate": "npm run typeorm -- migration:generate --config src/config/ormconfig-migration.ts --connection  --name ",
+    "migration:create": "npm run typeorm -- migration:create --config src/config/ormconfig-migration.ts --connection  --name ",
+    "migration:run": "npm run typeorm -- migration:run --config src/config/ormconfig-migration.ts --connection",
     "compodoc": "./node_modules/.bin/compodoc -p tsconfig.json --theme readthedocs"
   },
   "husky": {

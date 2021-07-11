@@ -43,7 +43,6 @@ export class Connectors {
     nullable: false,
     type: 'varchar',
     name: 'tenant_id',
-    unique: true,
   })
   tenant_id: string;
 
