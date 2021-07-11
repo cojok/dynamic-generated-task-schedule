@@ -48,12 +48,15 @@ jobs:
           script: |
             export NODE_ENV=prod
             export NVM_DIR=~/.nvm
-            source ~/.nvm/nvm.sh  
+            source ~/.nvm/nvm.sh 
             cd ${PATH_TO_FOLDER}
-            rm -rf api
             tar -xf deploy.tar
-            mv deploy api
             rm -rf deploy.tar
+            echo '==============='
+            echo 'STOP CURRENT RUNNING SERVER'
+            systemctl stop square-cup-labs-api
+            rm -rf api
+            mv deploy api
             cd api
             echo "NODE_ENV=prod" > .env.prod
             echo "PORT=3000" >> .env.prod
@@ -68,8 +71,7 @@ jobs:
             echo SC_PGDB_RUN_MIGRATION=${SC_PGDB_RUN_MIGRATION} >> .env.prod
             cat .env.prod
             echo "=================="
-            echo "STOP CURRENT SERVER"
-            kill -9 $(ps aux | grep '\snode\s' | awk '{print $2}')
             echo "START NEW SERVER"
-            (npm run start:prod &)
+            systemctl start square-cup-labs-api
+            systemctl status square-cup-labs-api
             echo 'Deployment successful to digital ocean with cloning'
