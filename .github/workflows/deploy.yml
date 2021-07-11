@@ -21,7 +21,6 @@ jobs:
           cd ../deploy
           npm i
           npm run build
-          rm -rf src/
           cd -
           tar -cvf deploy.tar ../deploy/
           mkdir ~/.ssh
