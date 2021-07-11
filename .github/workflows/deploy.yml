@@ -66,5 +66,9 @@ jobs:
             echo SC_SECRET=${SC_SECRET} >> .env.prod
             echo SC_SALT=${SC_SALT} >> .env.prod
             cat .env.prod
+            echo "=================="
+            echo "STOP CURRENT SERVER"
+            kill -9 $(ps aux | grep '\snode\s' | awk '{print $2}')
+            echo "START NEW SERVER"
             npm run start:prod
             echo 'Deployment successful to digital ocean with cloning'
