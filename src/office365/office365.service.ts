@@ -1,10 +1,9 @@
+import { ConfidentialClientApplication } from '@azure/msal-node';
 import { Injectable } from '@nestjs/common/decorators';
 import { HttpService } from '@nestjs/common/http';
 import { AxiosResponse } from 'axios';
-import { Observable } from 'rxjs/internal/Observable';
-// import * as msal from '@azure/msal-node';
-import { ConfidentialClientApplication } from '@azure/msal-node';
 import { PinoLogger } from 'nestjs-pino';
+import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
 import { Office365AuthResponseDto } from './dto';
 
@@ -66,14 +65,29 @@ export class Office365Service {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    return user;
+    return user.pipe(map((response) => response.data));
   }
 
-  async getUserSentEmails(
+  async getUserEmailsInbox(
     userId: string,
     accessToken: string,
   ): Promise<Observable<AxiosResponse<any[]>>> {
-    const sentMails = await this.httpService.get(
+    const inboxEmails = await this.httpService.get(
+      `${this.apiConfig.uri}${userId}/mailFolders/inbox/messages?$select=bodyPreview,subject,sender,sentDateTime,importance,isRead,flag,receivedDateTime`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    return inboxEmails.pipe(map((response) => response.data));
+  }
+
+  async getUserEmailsSentItems(
+    userId: string,
+    accessToken: string,
+  ): Promise<Observable<AxiosResponse<any[]>>> {
+    const sentEmails = await this.httpService.get(
       `${this.apiConfig.uri}${userId}/mailFolders/sentItems/messages?$select=bodyPreview,subject,sender,sentDateTime,importance,isRead,flag,receivedDateTime`,
       {
         headers: {
@@ -81,6 +95,52 @@ export class Office365Service {
         },
       },
     );
-    return sentMails;
+    return sentEmails.pipe(map((response) => response.data));
+  }
+
+  async getUserEmailsDrafts(
+    userId: string,
+    accessToken: string,
+  ): Promise<Observable<AxiosResponse<any[]>>> {
+    const draftEmails = await this.httpService.get(
+      `${this.apiConfig.uri}${userId}/mailFolders/drafts/messages?$select=bodyPreview,subject,sender,sentDateTime,importance,isRead,flag,receivedDateTime`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    return draftEmails.pipe(map((response) => response.data));
+  }
+
+  async getUserEmailsDeletedItems(
+    userId: string,
+    accessToken: string,
+  ): Promise<Observable<AxiosResponse<any[]>>> {
+    const deletedEmails = await this.httpService.get(
+      `${this.apiConfig.uri}${userId}/mailFolders/deletedItems/messages?$select=bodyPreview,subject,sender,sentDateTime,importance,isRead,flag,receivedDateTime`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    return deletedEmails.pipe(map((response) => response.data));
+  }
+
+  async getUserEmailById(
+    userId: string,
+    emailId: string,
+    accessToken: string,
+  ): Promise<Observable<AxiosResponse<any[]>>> {
+    const emailContent = await this.httpService.get(
+      `${this.apiConfig.uri}${userId}/messages/${emailId}?$select=body,categories,ccRecipients,bccRecipients,createdDateTime,flag,sender,sentDateTime,attachments,isDraft,isRead,receivedDateTime,replyTo`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    return emailContent.pipe(map((response) => response.data));
   }
 }

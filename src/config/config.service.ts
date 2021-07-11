@@ -33,14 +33,14 @@ export class ConfigService {
       password: this.get('SC_PGDB_PASS'),
       database: this.get('SC_PGDB_NAME'),
       entities: [`${__dirname}/../db/entities/**/*.entity{.ts,.js}`],
-      // ! ALWAYS FALSE IN PROD
-      synchronize: !(this.get('NODE_ENV') === 'prod'),
+      synchronize: false,
       logging: this.get('NODE_ENV') === 'dev',
       migrations: [`${__dirname}/../db/migrations/**/*{.ts,.js}`],
       cli: {
         migrationsDir: 'src/db/migrations',
       },
       schema: 'public',
+      migrationsRun: Boolean(this.get('SC_PGDB_RUN_MIGRATIONS')) || false,
     };
   }
 }

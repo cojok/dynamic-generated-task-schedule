@@ -46,4 +46,92 @@ export class Office365Controller {
   getUsers(@Query() query): Promise<any> {
     return this.office365Service.getUsers(query.accessToken);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/users/:id')
+  @ApiResponse({ status: 200, description: 'get user details' })
+  @ApiResponse({ status: 401, description: 'Not hey' })
+  @ApiResponse({ status: 404, description: 'Not found' })
+  // eslint-disable-next-line class-methods-use-this
+  getUserDetails(@Request() req, @Query() query): Promise<any> {
+    return this.office365Service.getUserById(req.params.id, query.accessToken);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/users/:id/emails/inbox')
+  @ApiResponse({
+    status: 200,
+    description: 'get all inbox emails for the user',
+  })
+  @ApiResponse({ status: 401, description: 'Not hey' })
+  @ApiResponse({ status: 404, description: 'Not found' })
+  // eslint-disable-next-line class-methods-use-this
+  getUserInbox(@Request() req, @Query() query): Promise<any> {
+    return this.office365Service.getUserEmailsInbox(
+      req.params.id,
+      query.accessToken,
+    );
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/users/:id/emails/outbox')
+  @ApiResponse({
+    status: 200,
+    description: 'get all emails in the outbox for the user',
+  })
+  @ApiResponse({ status: 401, description: 'Not hey' })
+  @ApiResponse({ status: 404, description: 'Not found' })
+  // eslint-disable-next-line class-methods-use-this
+  getUserOutbox(@Request() req, @Query() query): Promise<any> {
+    return this.office365Service.getUserEmailsSentItems(
+      req.params.id,
+      query.accessToken,
+    );
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/users/:id/emails/drafts')
+  @ApiResponse({
+    status: 200,
+    description: 'get all emails in draft for the user',
+  })
+  @ApiResponse({ status: 401, description: 'Not hey' })
+  @ApiResponse({ status: 404, description: 'Not found' })
+  // eslint-disable-next-line class-methods-use-this
+  getUserDraftBox(@Request() req, @Query() query): Promise<any> {
+    return this.office365Service.getUserEmailsDrafts(
+      req.params.id,
+      query.accessToken,
+    );
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/users/:id/emails/deleted')
+  @ApiResponse({
+    status: 200,
+    description: 'get all deleted emails for the users',
+  })
+  @ApiResponse({ status: 401, description: 'Not hey' })
+  @ApiResponse({ status: 404, description: 'Not found' })
+  // eslint-disable-next-line class-methods-use-this
+  getUserDeletedBox(@Request() req, @Query() query): Promise<any> {
+    return this.office365Service.getUserEmailsDeletedItems(
+      req.params.id,
+      query.accessToken,
+    );
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/users/:id/emails/:emailId')
+  @ApiResponse({ status: 200, description: 'get email content for the users' })
+  @ApiResponse({ status: 401, description: 'Not hey' })
+  @ApiResponse({ status: 404, description: 'Not found' })
+  // eslint-disable-next-line class-methods-use-this
+  getUserEmailContent(@Request() req, @Query() query): Promise<any> {
+    return this.office365Service.getUserEmailById(
+      req.params.id,
+      req.params.emailId,
+      query.accessToken,
+    );
+  }
 }
