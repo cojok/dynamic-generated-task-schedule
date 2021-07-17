@@ -1,11 +1,12 @@
-import { Controller, Get, Query, Request, UseGuards } from '@nestjs/common';
-import { ApiResponse } from '@nestjs/swagger';
+import { Controller, Get, Post, Query, Request, UseGuards } from '@nestjs/common';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { PinoLogger } from 'nestjs-pino';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Office365Service } from './office365.service';
 import { Office365AuthResponseDto } from './dto';
 import { ConnectorsService } from '../connectors/connectors.service';
 
+@ApiTags('office365')
 @Controller('office365')
 export class Office365Controller {
   constructor(
@@ -131,6 +132,21 @@ export class Office365Controller {
     return this.office365Service.getUserEmailById(
       req.params.id,
       req.params.emailId,
+      query.accessToken,
+    );
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('/users/:id/sent-email')
+  @ApiResponse({ status: 201, description: 'email sent' })
+  @ApiResponse({ status: 401, description: 'Not hey' })
+  @ApiResponse({ status: 400, description: "I don't know what you want" })
+  @ApiResponse({ status: 422, description: 'Wrong data format' })
+  // eslint-disable-next-line class-methods-use-this
+  sentEmail(@Request() req, @Query() query): Promise<any> {
+    return this.office365Service.sentEmail(
+      req.params.id,
+      req.body.emailContent,
       query.accessToken,
     );
   }

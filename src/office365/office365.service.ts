@@ -143,4 +143,97 @@ export class Office365Service {
     );
     return emailContent.pipe(map((response) => response.data));
   }
+
+  async sentEmail(
+    userId: string,
+    emailData: {
+      subject: string;
+      content: string;
+      contentType: string;
+      toRecipients: [
+        {
+          email: string;
+          name: string;
+        },
+      ];
+      ccRecipients: [
+        {
+          email: string;
+          name: string;
+        },
+      ];
+      bcRecipients: [
+        {
+          email: string;
+          name: string;
+        },
+      ];
+      options: {
+        importance: string;
+        saveToSentItems: boolean;
+      };
+    },
+    accessToken: string,
+  ): Promise<Observable<AxiosResponse<any[]>>> {
+    const {
+      subject,
+      content,
+      contentType,
+      toRecipients,
+      // ccRecipients,
+      // bcRecipients,
+      options,
+    } = emailData;
+
+    const message = {
+      subject,
+      importance: options.importance || 'Low',
+      body: {
+        content,
+        contentType: contentType || 'HTML',
+      },
+      toRecipients: toRecipients.map((recipient) => ({
+        emailAddress: {
+          name: recipient.name,
+          address: recipient.email,
+        },
+      })),
+    };
+
+    // TODO: enable later this options
+    // message.ccRecipients = ccRecipients.map((recipient) => {
+    //   return {
+    //     emailAddress: {
+    //       name: recipient.name,
+    //       address: recipient.email
+    //     }
+    //   };
+    // });
+
+    // message.bcRecipients = bcRecipients.map((recipient) => {
+    //   return {
+    //     emailAddress: {
+    //       name: recipient.name,
+    //       address: recipient.email
+    //     }
+    //   };
+    // });
+
+    const email = {
+      message,
+      saveToSentItems: options.saveToSentItems || 'true',
+    };
+
+    const sentEmail = await this.httpService.post(
+      `${this.apiConfig.uri}${userId}/sendMail`,
+      email,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+
+    return sentEmail.pipe(map((response) => response.data));
+  }
 }
