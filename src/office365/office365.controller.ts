@@ -1,10 +1,17 @@
-import { Controller, Get, Post, Query, Request, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Query,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { PinoLogger } from 'nestjs-pino';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { Office365Service } from './office365.service';
-import { Office365AuthResponseDto } from './dto';
 import { ConnectorsService } from '../connectors/connectors.service';
+import { Office365AuthResponseDto } from './dto';
+import { Office365Service } from './office365.service';
 
 @ApiTags('office365')
 @Controller('office365')

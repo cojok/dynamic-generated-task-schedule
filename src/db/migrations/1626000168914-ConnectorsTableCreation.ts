@@ -34,7 +34,7 @@ export class ConnectorsTableCreation1626000168914
             isUnique: true,
           },
           {
-            name: 'add_url',
+            name: 'aad_url',
             type: 'varchar',
             length: '55',
             isNullable: false,
