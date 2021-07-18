@@ -4,13 +4,13 @@ import {
   Entity,
   Generated,
   Index,
-  OneToMany,
+  // OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 // eslint-disable-next-line import/no-cycle
-import { Connectors } from './connectors.entity';
+// import { Connectors } from './connectors.entity';
 
 @Entity()
 export class User {
@@ -38,6 +38,6 @@ export class User {
   @UpdateDateColumn()
   updatedAt: string;
 
-  @OneToMany(() => Connectors, (connectors) => connectors.user_id)
-  connectors: Connectors[];
+  // @OneToMany(() => Connectors, (connectors) => connectors.userId)
+  // connectors: Connectors[];
 }

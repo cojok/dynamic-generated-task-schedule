@@ -36,12 +36,8 @@ export class ConnectorsService {
     };
     const connector: Connectors = new Connectors();
     connector.name = data.name;
-    connector.client_id = data.client_id;
-    connector.client_secret = data.client_secret;
-    connector.aad_url = data.aad_url;
-    connector.graph_url = data.graph_url;
-    connector.tenant_id = data.tenant_id;
-    connector.user_id = data.user_id;
+    connector.userId = data.userId;
+    connector.connectionData = data.connectionData;
     try {
       await this.connectorsRepository.save(connector);
     } catch (error) {

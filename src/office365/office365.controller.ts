@@ -32,14 +32,16 @@ export class Office365Controller {
   async getToken(@Request() req): Promise<Office365AuthResponseDto> {
     const { userId } = req.user;
     const userConnectors = await this.connectorsService.findAllByUserId({
-      user_id: userId,
+      userId,
     });
-    const authority = userConnectors[0].aad_url + userConnectors[0].tenant_id;
+    const authority =
+      userConnectors[0].connectionData.aadUrl +
+      userConnectors[0].connectionData.tenantId;
     const authConfig = {
       auth: {
-        clientId: userConnectors[0].client_id,
+        clientId: userConnectors[0].connectionData.clientId,
         authority,
-        clientSecret: userConnectors[0].client_secret,
+        clientSecret: userConnectors[0].connectionData.clientSecret,
       },
     };
     return this.office365Service.getToken(authConfig);
@@ -153,7 +155,7 @@ export class Office365Controller {
   sentEmail(@Request() req, @Query() query): Promise<any> {
     return this.office365Service.sentEmail(
       req.params.id,
-      req.body.emailContent,
+      req.body,
       query.accessToken,
     );
   }

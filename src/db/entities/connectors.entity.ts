@@ -3,6 +3,7 @@ import {
   CreateDateColumn,
   Entity,
   Generated,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -10,6 +11,7 @@ import {
 
 // eslint-disable-next-line import/no-cycle
 import { User } from './user.entity';
+import { ConnectorsConnectionDataOffice365 } from '../../connectors/interfaces/connectors-connection-data-office365.interface';
 @Entity()
 export class Connectors {
   @PrimaryGeneratedColumn('uuid')
@@ -25,40 +27,10 @@ export class Connectors {
 
   @Column({
     nullable: false,
-    type: 'varchar',
-    name: 'client_id',
-    unique: true,
+    type: 'jsonb',
+    name: 'connectionData',
   })
-  client_id: string;
-
-  @Column({
-    nullable: false,
-    type: 'varchar',
-    name: 'client_secret',
-    unique: true,
-  })
-  client_secret: string;
-
-  @Column({
-    nullable: false,
-    type: 'varchar',
-    name: 'tenant_id',
-  })
-  tenant_id: string;
-
-  @Column({
-    nullable: false,
-    type: 'varchar',
-    name: 'aad_url',
-  })
-  aad_url: string;
-
-  @Column({
-    nullable: false,
-    type: 'varchar',
-    name: 'graph_url',
-  })
-  graph_url: string;
+  connectionData: ConnectorsConnectionDataOffice365;
 
   @CreateDateColumn()
   createdAt: string;
@@ -66,6 +38,7 @@ export class Connectors {
   @UpdateDateColumn()
   updatedAt: string;
 
-  @ManyToOne(() => User, (user: User) => user.connectors)
-  user_id: User['id'];
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'userId' })
+  userId: User['id'];
 }

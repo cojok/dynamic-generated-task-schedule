@@ -16,6 +16,7 @@ export class ConfigService {
     if (!['dev', 'stg', 'prod'].includes('dev')) {
       throw new Error('Please specify a valid NODE_ENV var');
     }
+
     this.envPath = resolve(process.cwd(), `.env.${this.nodeEnv}`);
     this.envConfig = parse(readFileSync(this.envPath, 'utf8'));
   }
@@ -40,7 +41,7 @@ export class ConfigService {
         migrationsDir: 'src/db/migrations',
       },
       schema: 'public',
-      migrationsRun: false,
+      migrationsRun: Boolean(this.get('SC_PGDB_RUN_MIGRATIONS')) || false,
     };
   }
 }

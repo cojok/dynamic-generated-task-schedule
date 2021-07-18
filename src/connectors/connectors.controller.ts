@@ -53,7 +53,7 @@ export class ConnectorsController {
     @Body() createConnectorDto: CreateConnectorsDto,
   ): Promise<CreateConnectorStatus> {
     // eslint-disable-next-line no-param-reassign
-    createConnectorDto.user_id = req.user.userId;
+    createConnectorDto.userId = req.user.userId;
     const result: CreateConnectorStatus = await this.connectorsService.createConnector(
       createConnectorDto,
     );
@@ -70,6 +70,6 @@ export class ConnectorsController {
   @ApiResponse({ status: 404, description: 'Not found' })
   getAllConnectors(@Request() req): Promise<GetConnectorsDto[]> {
     const { userId } = req.user;
-    return this.connectorsService.findAllByUserId({ user_id: userId });
+    return this.connectorsService.findAllByUserId({ userId });
   }
 }
