@@ -40,7 +40,7 @@ export class ConfigService {
         migrationsDir: 'src/db/migrations',
       },
       schema: 'public',
-      migrationsRun: Boolean(this.get('SC_PGDB_RUN_MIGRATIONS')) || false,
+      migrationsRun: false,
     };
   }
 }
