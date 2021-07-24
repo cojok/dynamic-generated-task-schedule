@@ -4,6 +4,7 @@
 
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
+[![buddy pipeline](https://app.buddy.works/square-cup-labs/square-cup-labs-api/pipelines/pipeline/337883/badge.svg?token=d1e125eeb3fb0714cf019a8f9c04c034eada8f4d92b0b9e72452f0d347b35e1e "buddy pipeline")](https://app.buddy.works/square-cup-labs/square-cup-labs-api/pipelines/pipeline/337883)
 
   <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
     <p align="center">
