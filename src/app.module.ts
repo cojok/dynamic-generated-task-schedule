@@ -1,7 +1,6 @@
 import { Module, OnApplicationBootstrap } from '@nestjs/common';
 import { TerminusModule } from '@nestjs/terminus';
 import { LoggerModule } from 'nestjs-pino/dist';
-import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from './config/config.module';
@@ -11,6 +10,7 @@ import { HealthController } from './health/health.controller';
 import { Office365Module } from './office365/office365.module';
 import { UserModule } from './user/user.module';
 import { UtilsModule } from './utils/utils.module';
+import { GoogleWorkspaceModule } from './google-workspace/google-workspace.module';
 
 @Module({
   imports: [
@@ -27,12 +27,13 @@ import { UtilsModule } from './utils/utils.module';
         prettyPrint: {
           colorize: true,
           levelFirst: true,
-          translateTime: 'UTC:dd.mm.yyyy, h:MM:s',
+          translateTime: 'GMT:dd.mm.yyyy, h:MM:s',
         },
       },
     }),
+    GoogleWorkspaceModule,
   ],
-  controllers: [AppController, HealthController],
+  controllers: [HealthController],
   providers: [AppService],
 })
 export class AppModule implements OnApplicationBootstrap {
