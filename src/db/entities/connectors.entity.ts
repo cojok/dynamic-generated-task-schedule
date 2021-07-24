@@ -12,6 +12,7 @@ import {
 // eslint-disable-next-line import/no-cycle
 import { User } from './user.entity';
 import { ConnectorsConnectionDataOffice365 } from '../../connectors/interfaces/connectors-connection-data-office365.interface';
+
 @Entity()
 export class Connectors {
   @PrimaryGeneratedColumn('uuid')
