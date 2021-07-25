@@ -12,7 +12,6 @@ import { UserModule } from './user/user.module';
 import { UtilsModule } from './utils/utils.module';
 import { GoogleWorkspaceModule } from './google-workspace/google-workspace.module';
 import { CompanyModule } from './company/company.module';
-import { CompanyService } from './company/company.service';
 
 @Module({
   imports: [
@@ -37,7 +36,7 @@ import { CompanyService } from './company/company.service';
     CompanyModule,
   ],
   controllers: [HealthController],
-  providers: [AppService, CompanyService],
+  providers: [AppService],
 })
 export class AppModule {
   constructor(private appService: AppService) {}

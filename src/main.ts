@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Logger } from 'nestjs-pino';
-import { RedocModule, RedocOptions } from 'nestjs-redoc';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -32,32 +31,7 @@ async function bootstrap() {
     })
     .build();
   const document = SwaggerModule.createDocument(app, swaggerConfig);
-  // SwaggerModule.setup('api', app, document);
-  const redocOptions: RedocOptions = {
-    title: 'Square Cup Labs API',
-    logo: {
-      url: 'https://redocly.github.io/redoc/petstore-logo.png',
-      backgroundColor: '#F0F0F0',
-      altText: 'Square Labs API logo',
-    },
-    untrustedSpec: true,
-    sortPropsAlphabetically: true,
-    hideDownloadButton: false,
-    hideHostname: false,
-    // auth: {
-    //   enabled: true,
-    //   user: 'admin',
-    //   password: '123',
-    // },
-    tagGroups: [
-      {
-        name: 'default',
-        tags: ['auth', 'health', 'users', 'connectors', 'office365'],
-      },
-    ],
-  };
-  // Instead of using SwaggerModule.setup() you call this module
-  await RedocModule.setup('/api', app, document, redocOptions);
+  SwaggerModule.setup('api', app, document);
 
   app.useLogger(app.get(Logger));
   await app.listen(3000);
