@@ -1,4 +1,4 @@
-import { PinoLogger, Logger } from 'nestjs-pino';
+import { PinoLogger } from 'nestjs-pino';
 import {
   Body,
   Controller,

@@ -22,8 +22,8 @@ export type MockType<T> = {
 
 describe('ConnectorsService', () => {
   let service: ConnectorsService;
-  let clientRepositoryMock: MockType<Repository<Connectors>>;
-  let clientTypeRepositoryMock: MockType<Repository<Connectors>>;
+  // let clientRepositoryMock: MockType<Repository<Connectors>>;
+  // let clientTypeRepositoryMock: MockType<Repository<Connectors>>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -39,12 +39,11 @@ describe('ConnectorsService', () => {
     }).compile();
 
     service = module.get<ConnectorsService>(ConnectorsService);
-    clientRepositoryMock = module.get(getRepositoryToken(Connectors));
-    clientTypeRepositoryMock = module.get(getRepositoryToken(Connectors));
+    // clientRepositoryMock = module.get(getRepositoryToken(Connectors));
+    // clientTypeRepositoryMock = module.get(getRepositoryToken(Connectors));
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
-
 });
