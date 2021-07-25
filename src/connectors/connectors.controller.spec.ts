@@ -9,7 +9,7 @@ import { ConnectorsController } from './connectors.controller';
 import { ConnectorsService } from './connectors.service';
 import { GetConnectorsById } from './dto/get-connectors-by-id.dto';
 import { CreateConnectorsDto } from './dto/create-connectors.dto';
-import { CreateConnectorStatus } from '../../dist/connectors/interfaces/create-connector-status.interface';
+import { CreateConnectorStatus } from './interfaces/create-connector-status.interface';
 
 describe('ConnectorsController', () => {
   let controller: ConnectorsController;
