@@ -1,4 +1,4 @@
-import { Module, OnApplicationBootstrap } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TerminusModule } from '@nestjs/terminus';
 import { LoggerModule } from 'nestjs-pino/dist';
 import { AppService } from './app.service';
@@ -36,10 +36,6 @@ import { GoogleWorkspaceModule } from './google-workspace/google-workspace.modul
   controllers: [HealthController],
   providers: [AppService],
 })
-export class AppModule implements OnApplicationBootstrap {
+export class AppModule {
   constructor(private appService: AppService) {}
-
-  onApplicationBootstrap() {
-    return this.appService.generateTypeormConfigFile();
-  }
 }
