@@ -124,7 +124,7 @@ describe('UserService', () => {
       clientTypeRepositoryMock.findOneOrFail.mockImplementation(
         (data2: GetUserByIdDto) =>
           new Promise((resolve, reject) => {
-            if (!data2 && data2.id !== '3b6b451f-df59-490c-92d1-6600515ce177') {
+            if (!data2 || data2.id !== '3b6b451f-df59-490c-92d1-6600515ce177') {
               reject(new Error('No data send in'));
             }
             resolve(userData[0]);

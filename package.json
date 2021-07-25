@@ -54,6 +54,7 @@
     "helmet": "^4.4.1",
     "http-server": "^0.12.3",
     "nestjs-pino": "^1.4.0",
+    "nestjs-redoc": "^2.2.1",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
@@ -98,7 +99,9 @@
     "typescript": "^4.2.3"
   },
   "jest": {
-    "setupFiles": ["../jest.setup.ts"],
+    "setupFiles": [
+      "../jest.setup.ts"
+    ],
     "moduleFileExtensions": [
       "js",
       "json",
