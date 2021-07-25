@@ -120,7 +120,7 @@ describe('UserService', () => {
       expect(clientRepositoryMock.findOneOrFail).toBeCalledWith(data);
     });
 
-    it('should fail to retrieve a user', async (done) => {
+    it('should fail to retrieve a user', async () => {
       clientTypeRepositoryMock.findOneOrFail.mockImplementation(
         (data2: GetUserByIdDto) =>
           new Promise((resolve, reject) => {
@@ -132,7 +132,6 @@ describe('UserService', () => {
       );
       await service.findOne(null).catch((error) => {
         expect(error).toEqual(new Error('No data send in'));
-        done();
       });
       expect(clientRepositoryMock.findOneOrFail).toBeCalledTimes(1);
       expect(clientRepositoryMock.findOneOrFail).toBeCalledWith(null);

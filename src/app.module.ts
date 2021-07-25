@@ -11,6 +11,10 @@ import { Office365Module } from './office365/office365.module';
 import { UserModule } from './user/user.module';
 import { UtilsModule } from './utils/utils.module';
 import { GoogleWorkspaceModule } from './google-workspace/google-workspace.module';
+import { CompnayModule } from './compnay/compnay.module';
+import { CompanyService } from './company/company.service';
+import { CompanyModule } from './company/company.module';
+import { CompanyService } from './company/company.service';
 
 @Module({
   imports: [
@@ -32,9 +36,11 @@ import { GoogleWorkspaceModule } from './google-workspace/google-workspace.modul
       },
     }),
     GoogleWorkspaceModule,
+    CompnayModule,
+    CompanyModule,
   ],
   controllers: [HealthController],
-  providers: [AppService],
+  providers: [AppService, CompanyService],
 })
 export class AppModule {
   constructor(private appService: AppService) {}
