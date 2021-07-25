@@ -1,21 +1,16 @@
-import { IsUUID, IsString } from 'class-validator';
+import { IsUUID, IsString, IsObject } from 'class-validator';
+import { ConnectorsConnectionDataOffice365 } from '../interfaces/connectors-connection-data-office365.interface';
 
 export class GetConnectorsDto {
   @IsUUID()
   id: string;
 
   @IsString()
-  client_id: string;
+  name: string;
+
+  @IsObject()
+  connectionData: ConnectorsConnectionDataOffice365;
 
   @IsString()
-  client_secret: string;
-
-  @IsString()
-  tenant_id: string;
-
-  @IsString()
-  aad_url: string;
-
-  @IsUUID()
-  graph_url: string;
+  userId: string;
 }

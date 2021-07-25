@@ -8,10 +8,4 @@ export class AppService {
     private utilsService: UtilsService,
     private configService: ConfigService,
   ) {}
-
-  generateTypeormConfigFile() {
-    return this.utilsService.generateTypeormJSONConfigFile(
-      this.configService.getTypeormConfigOptions(),
-    );
-  }
 }

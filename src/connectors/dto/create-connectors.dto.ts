@@ -1,30 +1,23 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsUUID, IsString } from 'class-validator';
+import { IsUUID, IsString, IsObject } from 'class-validator';
+import { ConnectorsConnectionDataOffice365 } from '../interfaces/connectors-connection-data-office365.interface';
 
 export class CreateConnectorsDto {
-  @ApiProperty({ default: 'client_id' })
-  @IsString()
-  client_id: string;
-
-  @ApiProperty({ default: 'client_secret' })
-  @IsString()
-  client_secret: string;
-
-  @ApiProperty({ default: 'tenant_id' })
-  @IsString()
-  tenant_id: string;
-
-  @ApiProperty({ default: 'aad_endpoint' })
-  @IsString()
-  aad_url: string;
-
-  @ApiProperty({ default: 'graph_endpoint' })
-  @IsString()
-  graph_url: string;
+  @ApiProperty({
+    default: {
+      clientId: 'client_id',
+      clientSecret: 'client_secret',
+      tenantId: 'tenant_id',
+      aadUrl: 'aad_endpoint',
+      graphUrl: 'graph_endpoint',
+    },
+  })
+  @IsObject()
+  connectionData: ConnectorsConnectionDataOffice365;
 
   @ApiProperty({ default: 'user id' })
   @IsUUID()
-  user_id: string;
+  userId: string;
 
   @ApiProperty({ default: 'connector_name' })
   @IsString()

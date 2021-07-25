@@ -3,8 +3,7 @@ import { Injectable } from '@nestjs/common/decorators';
 import { HttpService } from '@nestjs/common/http';
 import { AxiosResponse } from 'axios';
 import { PinoLogger } from 'nestjs-pino';
-import { Observable } from 'rxjs/internal/Observable';
-import { map } from 'rxjs/operators';
+import { Observable, map } from 'rxjs';
 import { Office365AuthResponseDto } from './dto';
 
 @Injectable()
@@ -142,5 +141,296 @@ export class Office365Service {
       },
     );
     return emailContent.pipe(map((response) => response.data));
+  }
+
+  async getUserCalendarEvents(
+    userId: string,
+    accessToken: string,
+  ): Promise<Observable<AxiosResponse<any[]>>> {
+    const calendarEvents = await this.httpService.get(
+      `${this.apiConfig.uri}${userId}/events/`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    return calendarEvents.pipe(map((response) => response.data));
+  }
+
+  async getUserCalendarEventContent(
+    userId: string,
+    eventId: string,
+    accessToken: string,
+  ): Promise<Observable<AxiosResponse<any[]>>> {
+    const emailContent = await this.httpService.get(
+      `${this.apiConfig.uri}${userId}/events/${eventId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    return emailContent.pipe(map((response) => response.data));
+  }
+
+  async getUserCalendars(
+    userId: string,
+    accessToken: string,
+  ): Promise<Observable<AxiosResponse<any[]>>> {
+    const calendars = await this.httpService.get(
+      `${this.apiConfig.uri}${userId}/calendars/`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    return calendars.pipe(map((response) => response.data));
+  }
+
+  async getCalendarsDetail(
+    userId: string,
+    calendarId: string,
+    accessToken: string,
+  ): Promise<Observable<AxiosResponse<any[]>>> {
+    const calendarsDetails = await this.httpService.get(
+      `${this.apiConfig.uri}${userId}/calendars/${calendarId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    return calendarsDetails.pipe(map((response) => response.data));
+  }
+
+  async getSpecificCalendarsEvents(
+    userId: string,
+    calendarId: string,
+    accessToken: string,
+  ): Promise<Observable<AxiosResponse<any[]>>> {
+    const calendarEvents = await this.httpService.get(
+      `${this.apiConfig.uri}${userId}/calendars/${calendarId}/events`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    return calendarEvents.pipe(map((response) => response.data));
+  }
+
+  async getSpecificCalendarEventDetails(
+    userId: string,
+    calendarId: string,
+    eventId: string,
+    accessToken: string,
+  ): Promise<Observable<AxiosResponse<any[]>>> {
+    const calendarsDetails = await this.httpService.get(
+      `${this.apiConfig.uri}${userId}/calendars/${calendarId}/events/${eventId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    return calendarsDetails.pipe(map((response) => response.data));
+  }
+
+  async sentEmail(
+    userId: string,
+    emailData: {
+      subject: string;
+      content: string;
+      contentType: string;
+      toRecipients: [
+        {
+          email: string;
+          name: string;
+        },
+      ];
+      ccRecipients: [
+        {
+          email: string;
+          name: string;
+        },
+      ];
+      bcRecipients: [
+        {
+          email: string;
+          name: string;
+        },
+      ];
+      options: {
+        importance: string;
+        saveToSentItems: boolean;
+      };
+    },
+    accessToken: string,
+  ): Promise<Observable<AxiosResponse<any[]>>> {
+    const {
+      subject,
+      content,
+      contentType,
+      toRecipients,
+      // ccRecipients,
+      // bcRecipients,
+      options,
+    } = emailData;
+
+    const message = {
+      subject,
+      importance: options.importance || 'Low',
+      body: {
+        content,
+        contentType: contentType || 'HTML',
+      },
+      toRecipients: toRecipients.map((recipient) => ({
+        emailAddress: {
+          name: recipient.name,
+          address: recipient.email,
+        },
+      })),
+    };
+
+    // TODO: enable later this options
+    // message.ccRecipients = ccRecipients.map((recipient) => {
+    //   return {
+    //     emailAddress: {
+    //       name: recipient.name,
+    //       address: recipient.email
+    //     }
+    //   };
+    // });
+
+    // message.bcRecipients = bcRecipients.map((recipient) => {
+    //   return {
+    //     emailAddress: {
+    //       name: recipient.name,
+    //       address: recipient.email
+    //     }
+    //   };
+    // });
+
+    const email = {
+      message,
+      saveToSentItems: options.saveToSentItems || 'true',
+    };
+
+    const sentEmail = await this.httpService.post(
+      `${this.apiConfig.uri}${userId}/sendMail`,
+      email,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+
+    return sentEmail.pipe(map((response) => response.data));
+  }
+
+  async createCalendarEvent(
+    userId: string,
+    eventData: {
+      subject: string;
+      body: string;
+      start: string;
+      end: string;
+      attendees: string[];
+    },
+    timeZone: string,
+    accessToken: string,
+  ): Promise<Observable<AxiosResponse<any[]>>> {
+    const newEvent = {
+      subject: eventData.subject,
+      start: {
+        dateTime: eventData.start,
+        timeZone,
+      },
+      end: {
+        dateTime: eventData.end,
+        timeZone,
+      },
+      body: {
+        contentType: 'text',
+        content: eventData.body,
+      },
+      attendees: [],
+    };
+    if (eventData.attendees) {
+      eventData.attendees.forEach((attendee) => {
+        newEvent.attendees.push({
+          type: 'required',
+          emailAddress: {
+            address: attendee,
+          },
+        });
+      });
+    } else {
+      throw new Error("Can't creat event without at least 1 attendee");
+    }
+    return await this.httpService.post(
+      `${this.apiConfig.uri}${userId}/events`,
+      newEvent,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+  }
+
+  async createSpecificCalendarEvent(
+    userId: string,
+    eventData: {
+      subject: string;
+      body: string;
+      start: string;
+      end: string;
+      attendees: string[];
+    },
+    timeZone: string,
+    calendarId: string,
+    accessToken: string,
+  ): Promise<Observable<AxiosResponse<any[]>>> {
+    const newEvent = {
+      subject: eventData.subject,
+      start: {
+        dateTime: eventData.start,
+        timeZone,
+      },
+      end: {
+        dateTime: eventData.end,
+        timeZone,
+      },
+      body: {
+        contentType: 'text',
+        content: eventData.body,
+      },
+      attendees: [],
+    };
+    if (eventData.attendees) {
+      eventData.attendees.forEach((attendee) => {
+        newEvent.attendees.push({
+          type: 'required',
+          emailAddress: {
+            address: attendee,
+          },
+        });
+      });
+    } else {
+      throw new Error("Can't creat event without at least 1 attendee");
+    }
+    return await this.httpService.post(
+      `${this.apiConfig.uri}${userId}/calendars/${calendarId}/events`,
+      newEvent,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
   }
 }

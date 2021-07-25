@@ -1,7 +1,6 @@
-import { Module, OnApplicationBootstrap } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TerminusModule } from '@nestjs/terminus';
 import { LoggerModule } from 'nestjs-pino/dist';
-import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from './config/config.module';
@@ -11,6 +10,9 @@ import { HealthController } from './health/health.controller';
 import { Office365Module } from './office365/office365.module';
 import { UserModule } from './user/user.module';
 import { UtilsModule } from './utils/utils.module';
+import { GoogleWorkspaceModule } from './google-workspace/google-workspace.module';
+import { CompanyModule } from './company/company.module';
+import { CompanyService } from './company/company.service';
 
 @Module({
   imports: [
@@ -27,18 +29,16 @@ import { UtilsModule } from './utils/utils.module';
         prettyPrint: {
           colorize: true,
           levelFirst: true,
-          translateTime: 'UTC:dd.mm.yyyy, h:MM:s',
+          translateTime: 'GMT:dd.mm.yyyy, h:MM:s',
         },
       },
     }),
+    GoogleWorkspaceModule,
+    CompanyModule,
   ],
-  controllers: [AppController, HealthController],
-  providers: [AppService],
+  controllers: [HealthController],
+  providers: [AppService, CompanyService],
 })
-export class AppModule implements OnApplicationBootstrap {
+export class AppModule {
   constructor(private appService: AppService) {}
-
-  onApplicationBootstrap() {
-    return this.appService.generateTypeormConfigFile();
-  }
 }

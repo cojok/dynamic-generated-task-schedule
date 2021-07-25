@@ -7,7 +7,8 @@ import {
 } from 'typeorm';
 
 export class ConnectorsTableCreation1626000168914
-  implements MigrationInterface {
+  implements MigrationInterface
+{
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -27,39 +28,12 @@ export class ConnectorsTableCreation1626000168914
             isNullable: false,
           },
           {
-            name: 'client_secret',
-            type: 'varchar',
-            length: '255',
-            isNullable: false,
-            isUnique: true,
-          },
-          {
-            name: 'add_url',
-            type: 'varchar',
-            length: '55',
+            name: 'connectionData',
+            type: 'jsonb',
             isNullable: false,
           },
           {
-            name: 'graph_url',
-            type: 'varchar',
-            length: '255',
-            isNullable: false,
-          },
-          {
-            name: 'client_id',
-            type: 'varchar',
-            length: '255',
-            isNullable: false,
-            isUnique: true,
-          },
-          {
-            name: 'tenant_id',
-            type: 'varchar',
-            length: '255',
-            isNullable: false,
-          },
-          {
-            name: 'userIdId',
+            name: 'userId',
             type: 'uuid',
           },
           {
@@ -82,7 +56,7 @@ export class ConnectorsTableCreation1626000168914
     await queryRunner.createForeignKey(
       'connectors',
       new TableForeignKey({
-        columnNames: ['userIdId'],
+        columnNames: ['userId'],
         referencedColumnNames: ['id'],
         referencedTableName: 'user',
       }),
@@ -92,7 +66,7 @@ export class ConnectorsTableCreation1626000168914
   public async down(queryRunner: QueryRunner): Promise<void> {
     const table = await queryRunner.getTable('connectors');
     const foreignKey = table.foreignKeys.find(
-      (fk) => fk.columnNames.indexOf('userIdId') !== -1,
+      (fk) => fk.columnNames.indexOf('userId') !== -1,
     );
     await queryRunner.dropForeignKey('connectors', foreignKey);
     await queryRunner.dropTable('connectors');

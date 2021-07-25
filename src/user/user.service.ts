@@ -35,7 +35,7 @@ export class UserService {
   }
 
   async findOne(data: GetUserByIdDto): Promise<User | undefined> {
-    const user: User = await this.userRepository.findOne(data);
+    const user: User = await this.userRepository.findOneOrFail(data);
     return user;
   }
 
@@ -52,10 +52,10 @@ export class UserService {
   }
 
   async findUserByUsername(data: GetUserByUsernameDto): Promise<User> {
-    return this.userRepository.findOne({ username: data.username });
+    return this.userRepository.findOneOrFail({ username: data.username });
   }
 
   async findUserBy(data): Promise<User> {
-    return this.userRepository.findOne(data);
+    return this.userRepository.findOneOrFail(data);
   }
 }

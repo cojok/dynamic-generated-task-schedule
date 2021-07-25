@@ -4,13 +4,12 @@ import {
   Entity,
   Generated,
   Index,
-  OneToMany,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
-// eslint-disable-next-line import/no-cycle
-import { Connectors } from './connectors.entity';
+import { Company } from './company.entity';
 
 @Entity()
 export class User {
@@ -38,6 +37,7 @@ export class User {
   @UpdateDateColumn()
   updatedAt: string;
 
-  @OneToMany(() => Connectors, (connectors) => connectors.user_id)
-  connectors: Connectors[];
+  @ManyToOne(() => Company)
+  @JoinColumn({ name: 'companyId' })
+  companyId: Company['id'];
 }
