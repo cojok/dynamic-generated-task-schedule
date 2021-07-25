@@ -67,7 +67,7 @@ describe('UserController', () => {
     it('should return user data', async () => {
       expect(await controller.getProfile(user)).toEqual(userReturn);
     });
-    it('should return bad request exception', async (done) => {
+    it('should return bad request exception', async () => {
       try {
         await controller.getProfile(null);
       } catch (error) {
@@ -76,22 +76,14 @@ describe('UserController', () => {
           new BadRequestException('Incorrect data provided'),
         );
         expect(error.status).toBe(400);
-        done();
       }
     });
-    it('should return not found', async (done) => {
-      await controller
-        .getProfile({ id: 'test' })
-        .then(() =>
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-          done.fail('Client controller should return not found exception'),
-        )
-        .catch((error) => {
-          expect(error).toBeInstanceOf(NotFoundException);
-          expect(error).toEqual(new NotFoundException('No user found'));
-          expect(error.status).toBe(404);
-          done();
-        });
+    it('should return not found', async () => {
+      await controller.getProfile({ id: 'test' }).catch((error) => {
+        expect(error).toBeInstanceOf(NotFoundException);
+        expect(error).toEqual(new NotFoundException('No user found'));
+        expect(error.status).toBe(404);
+      });
     });
   });
 });

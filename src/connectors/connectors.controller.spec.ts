@@ -119,14 +119,13 @@ describe('ConnectorsController', () => {
         connectorsData,
       );
     });
-    it('should not find any connector of user with no connector id', async (done) => {
+    it('should not find any connector of user with no connector id', async () => {
       try {
         await controller.getConnectorsById(null, reqFake);
       } catch (error) {
         expect(error).toBeInstanceOf(BadRequestException);
         expect(error.message).toBe('Wrong data in payload');
         expect(error.status).toBe(400);
-        done();
       }
     });
   });
