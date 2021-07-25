@@ -5,18 +5,19 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const whitelist = ['http://localhost:8080'];
-  app.enableCors({
-    origin(origin, callback) {
-      if (!origin || whitelist.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    credentials: false,
-  });
+  // TODO check how to do CORS
+  // const whitelist = ['http://localhost:8080'];
+  // app.enableCors({
+  //   origin(origin, callback) {
+  //     if (!origin || whitelist.indexOf(origin) !== -1) {
+  //       callback(null, true);
+  //     } else {
+  //       callback(new Error('Not allowed by CORS'));
+  //     }
+  //   },
+  //   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+  //   credentials: false,
+  // });
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Square Cup Labs API')
     .setDescription('This is the API doc for the square cup labs api')
