@@ -71,9 +71,8 @@ export class ConnectorsController {
   ): Promise<CreateConnectorStatus> {
     // eslint-disable-next-line no-param-reassign
     createConnectorDto.userId = req.user.userId;
-    const result: CreateConnectorStatus = await this.connectorsService.createConnector(
-      createConnectorDto,
-    );
+    const result: CreateConnectorStatus =
+      await this.connectorsService.createConnector(createConnectorDto);
     if (!result.success) {
       throw new HttpException(result.message, HttpStatus.BAD_REQUEST);
     }

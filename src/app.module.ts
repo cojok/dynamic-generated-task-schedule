@@ -11,8 +11,6 @@ import { Office365Module } from './office365/office365.module';
 import { UserModule } from './user/user.module';
 import { UtilsModule } from './utils/utils.module';
 import { GoogleWorkspaceModule } from './google-workspace/google-workspace.module';
-import { CompnayModule } from './compnay/compnay.module';
-import { CompanyService } from './company/company.service';
 import { CompanyModule } from './company/company.module';
 import { CompanyService } from './company/company.service';
 
@@ -36,7 +34,6 @@ import { CompanyService } from './company/company.service';
       },
     }),
     GoogleWorkspaceModule,
-    CompnayModule,
     CompanyModule,
   ],
   controllers: [HealthController],

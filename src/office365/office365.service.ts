@@ -3,8 +3,7 @@ import { Injectable } from '@nestjs/common/decorators';
 import { HttpService } from '@nestjs/common/http';
 import { AxiosResponse } from 'axios';
 import { PinoLogger } from 'nestjs-pino';
-import { Observable } from 'rxjs/internal/Observable';
-import { map } from 'rxjs/operators';
+import { Observable, map } from 'rxjs';
 import { Office365AuthResponseDto } from './dto';
 
 @Injectable()

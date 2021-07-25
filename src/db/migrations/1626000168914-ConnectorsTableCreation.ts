@@ -7,7 +7,8 @@ import {
 } from 'typeorm';
 
 export class ConnectorsTableCreation1626000168914
-  implements MigrationInterface {
+  implements MigrationInterface
+{
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({

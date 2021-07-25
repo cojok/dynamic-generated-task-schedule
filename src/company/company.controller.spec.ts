@@ -1,8 +1,11 @@
 import { LoggerModule } from 'nestjs-pino/dist';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Status } from 'src/shared/interfaces/status.interface';
-import { BadRequestException, ForbiddenException } from '@nestjs/common/exceptions';
+import {
+  BadRequestException,
+  ForbiddenException,
+} from '@nestjs/common/exceptions';
+import { Status } from '../shared/interfaces/status.interface';
 import { CompanyController } from './company.controller';
 import { CompanyService } from './company.service';
 import { User } from '../db/entities/user.entity';
