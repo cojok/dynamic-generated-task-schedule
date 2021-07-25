@@ -1,3 +1,4 @@
+import { PinoLogger, Logger } from 'nestjs-pino';
 import {
   Body,
   Controller,
@@ -10,6 +11,10 @@ import {
   Request,
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common/exceptions';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ConnectorsService } from './connectors.service';
 import {
@@ -22,7 +27,10 @@ import { CreateConnectorStatus } from './interfaces/create-connector-status.inte
 @ApiTags('connectors')
 @Controller('connectors')
 export class ConnectorsController {
-  constructor(private connectorsService: ConnectorsService) {}
+  constructor(
+    private connectorsService: ConnectorsService,
+    private readonly logger: PinoLogger,
+  ) {}
 
   @UseGuards(JwtAuthGuard)
   @Get(':id')
@@ -35,11 +43,20 @@ export class ConnectorsController {
     @Param() params: GetConnectorsById,
     @Request() req,
   ): Promise<GetConnectorsDto> {
+    if (!params || !Object.prototype.hasOwnProperty.call(params, 'id')) {
+      this.logger.error({ req }, 'Wrong data in payload');
+      throw new BadRequestException('Wrong data in payload');
+    }
     const { userId } = req.user;
-    return this.connectorsService.findOne({
-      id: params.id,
-      userId,
-    });
+    return this.connectorsService
+      .findOne({
+        id: params.id,
+        userId,
+      })
+      .catch((error) => {
+        this.logger.warn({ error }, 'No connector found');
+        throw new NotFoundException('No connector found');
+      });
   }
 
   @UseGuards(JwtAuthGuard)

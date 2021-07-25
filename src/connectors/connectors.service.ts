@@ -19,7 +19,9 @@ export class ConnectorsService {
   ) {}
 
   async findOne(data: GetConnectorsById): Promise<Connectors | undefined> {
-    const connector: Connectors = await this.connectorsRepository.findOne(data);
+    const connector: Connectors = await this.connectorsRepository.findOneOrFail(
+      data,
+    );
     return connector;
   }
 

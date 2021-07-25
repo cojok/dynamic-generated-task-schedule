@@ -1,3 +1,3 @@
 import 'reflect-metadata';
 
-jest.setTimeout(1000);
+jest.setTimeout(100);

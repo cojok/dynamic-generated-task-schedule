@@ -46,16 +46,7 @@ describe('UserController', () => {
                   ) {
                     reject(new Error('No data send in'));
                   }
-                  resolve({
-                    name: 'Flave',
-                    id: data.id,
-                    password:
-                      '6a2da20943931e9834fc12cfe5bb47bbd9ae43489a30726962b576f4e3993e50',
-                    username: 'flavflavour',
-                    email: 'falve@flavour.com',
-                    created: '2021-07-24',
-                    updatedAt: '2021-07-24',
-                  });
+                  resolve(userReturn);
                 }),
             ),
           },

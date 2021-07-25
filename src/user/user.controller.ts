@@ -26,7 +26,7 @@ export class UserController {
   @ApiResponse({ status: 401, description: 'Not authorized' })
   @ApiResponse({ status: 404, description: 'Not found' })
   getProfile(@Param() params: GetUserByIdDto): Promise<GetUserDto> {
-    if (!params || !params.id) {
+    if (!params || !Object.prototype.hasOwnProperty.call(params, 'id')) {
       throw new BadRequestException('Incorrect data provided');
     }
     return this.userService.findOne({ id: params.id }).catch(() => {
