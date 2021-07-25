@@ -20,7 +20,7 @@ describe('ConnectorsController', () => {
   };
   const reqFake = {
     user: {
-      userId: '3b6b451f-df59-490c-92d1-6600515ce172',
+      userId: '3b6b451f-df59-490c-92d1-6600515ce177',
     },
   };
   const connectorsData = [
