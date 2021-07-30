@@ -3,18 +3,14 @@ import {
   CreateDateColumn,
   Entity,
   Generated,
-  JoinColumn,
-  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-// eslint-disable-next-line import/no-cycle
-import { User } from './user.entity';
-import { ConnectorsConnectionDataOffice365 } from '../../connectors/interfaces/connectors-connection-data-office365.interface';
+import { TaskConfiguration } from '../../task/interfaces/taskConfiguration.interface';
 
 @Entity()
-export class Connectors {
+export class Tasks {
   @PrimaryGeneratedColumn('uuid')
   @Generated('uuid')
   id: string;
@@ -31,15 +27,11 @@ export class Connectors {
     type: 'jsonb',
     name: 'connectionData',
   })
-  connectionData: ConnectorsConnectionDataOffice365;
+  connectionData: TaskConfiguration;
 
   @CreateDateColumn()
   createdAt: string;
 
   @UpdateDateColumn()
   updatedAt: string;
-
-  @ManyToOne(() => User)
-  @JoinColumn({ name: 'userId' })
-  userId: User['id'];
 }

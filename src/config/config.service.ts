@@ -34,7 +34,7 @@ export class ConfigService {
       password: this.get('SC_PGDB_PASS'),
       database: this.get('SC_PGDB_NAME'),
       entities: [`${__dirname}/../db/entities/**/*.entity{.ts,.js}`],
-      synchronize: false,
+      synchronize: true,
       logging: this.get('NODE_ENV') === 'dev',
       migrations: [`${__dirname}/../db/migrations/**/*{.ts,.js}`],
       cli: {
